@@ -1,0 +1,75 @@
+/* Define a fonte principal, cor de fundo, espaçamento e cor do texto */
+body {
+  font-family: Arial, sans-serif; /* Fonte legível e padrão */
+  background-color: #f4f7f8; /* Cor de fundo clara */
+  margin: 30px; /* Espaçamento da borda da página */
+  color: #333; /* Cor do texto (cinza escuro) */
+}
+
+/* Estiliza o título principal */
+h2 {
+  color: #2c3e50; /* Cor azul escura elegante */
+}
+
+/* Estilo para todos os campos de entrada e botões */
+input, button {
+  padding: 10px; /* Espaço interno */
+  margin: 5px; /* Espaço externo */
+  border: 1px solid #ccc; /* Borda cinza clara */
+  border-radius: 6px; /* Cantos arredondados */
+  font-size: 16px; /* Tamanho da fonte */
+}
+
+/* Estilo específico para o botão */
+button {
+  background-color: #3498db; /* Azul vibrante */
+  color: white; /* Texto branco */
+  border: none; /* Remove a borda padrão */
+  cursor: pointer; /* Mostra o cursor de clique */
+  transition: background-color 0.3s ease; /* Animação suave na cor */
+}
+
+/* Quando o mouse passar sobre o botão */
+button:hover {
+  background-color: #2980b9; /* Tom de azul mais escuro */
+}
+
+/* Estilo da tabela */
+table {
+  width: 100%; /* Ocupa toda a largura disponível */
+  border-collapse: collapse; /* Remove espaço entre bordas */
+  margin-top: 20px; /* Espaço acima da tabela */
+  background-color: white; /* Fundo branco */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1); /* Sombra leve para destaque */
+}
+
+/* Cabeçalhos da tabela */
+th {
+  background-color: #2980b9; /* Azul escuro */
+  color: white; /* Texto branco */
+  text-align: left; /* Alinhamento à esquerda */
+  padding: 12px; /* Espaçamento interno */
+}
+
+/* Células da tabela */
+td {
+  padding: 10px; /* Espaçamento interno */
+  border-bottom: 1px solid #ddd; /* Linha separadora */
+}
+
+/* Botão de remover dentro da tabela */
+td button {
+  padding: 5px 10px; /* Espaçamento interno */
+  font-size: 14px; /* Tamanho da fonte reduzido */
+  margin-right: 5px; /* Espaço à direita */
+  background-color: #e74c3c; /* Vermelho */
+  border: none; /* Sem borda */
+  color: white; /* Texto branco */
+  border-radius: 4px; /* Cantos arredondados */
+  cursor: pointer; /* Cursor de clique */
+}
+
+/* Hover no botão de remover */
+td button:hover {
+  background-color: #c0392b; /* Vermelho mais escuro */
+}

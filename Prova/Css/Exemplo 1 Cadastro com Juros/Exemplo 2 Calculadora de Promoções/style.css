@@ -1,0 +1,47 @@
+/* Define estilo básico do corpo da página */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte moderna */
+  background-color: #fefefe; /* Fundo branco claro */
+  margin: 30px; /* Espaçamento da borda */
+  color: #2c2c2c; /* Cor de texto escura */
+}
+
+/* Estiliza o título */
+h2 {
+  color: #27ae60; /* Verde escuro para destaque */
+}
+
+/* Estilo para inputs e botão */
+input, button {
+  padding: 10px; /* Espaço interno */
+  margin: 5px; /* Espaço externo */
+  border-radius: 6px; /* Cantos arredondados */
+  border: 1px solid #ccc; /* Borda cinza clara */
+  font-size: 16px; /* Tamanho da fonte */
+}
+
+/* Estilo do botão */
+button {
+  background-color: #2ecc71; /* Verde claro */
+  color: white; /* Texto branco */
+  border: none; /* Sem borda */
+  cursor: pointer; /* Mãozinha ao passar o mouse */
+  transition: background-color 0.3s ease; /* Animação na cor */
+}
+
+/* Quando passar o mouse sobre o botão */
+button:hover {
+  background-color: #27ae60; /* Verde mais escuro */
+}
+
+/* Estilo da caixa de resultado */
+#resultado {
+  margin-top: 20px; /* Espaço acima */
+  font-weight: bold; /* Texto em negrito */
+  font-size: 18px; /* Fonte maior */
+  background-color: #ecf9f1; /* Verde bem claro como fundo */
+  border: 1px solid #b2dfbc; /* Borda suave verde */
+  padding: 15px; /* Espaçamento interno */
+  border-radius: 8px; /* Cantos arredondados */
+  max-width: 400px; /* Largura máxima */
+}
