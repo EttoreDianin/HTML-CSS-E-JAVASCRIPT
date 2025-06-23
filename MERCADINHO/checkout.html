@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Checkout - Mercadinho Digital</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    main {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin-bottom: 1rem;
+      color: #0077cc;
+    }
+    .resumo-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 6px;
+    }
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      font-weight: 600;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 20px;
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      border-radius: 8px;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    #total {
+      font-weight: 700;
+      margin-top: 15px;
+      font-size: 1.2rem;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mercadinho Digital</h1>
+    <nav>
+      <a href="carrinho.html">Voltar ao Carrinho</a> |
+      <button onclick="logout()">Sair</button>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Resumo do Pedido</h2>
+    <div id="resumo-pedido">Carregando...</div>
+    <div id="total"></div>
+
+    <h2>Informações para Entrega</h2>
+    <form id="checkout-form">
+      <label for="nome">Nome completo</label>
+      <input type="text" id="nome" name="nome" required />
+
+      <label for="endereco">Endereço</label>
+      <textarea id="endereco" name="endereco" rows="3" required></textarea>
+
+      <label for="telefone">Telefone</label>
+      <input type="tel" id="telefone" name="telefone" required pattern="[\d\s\-+()]{7,}" placeholder="(99) 99999-9999" />
+
+      <label for="pagamento">Método de pagamento</label>
+      <select id="pagamento" name="pagamento" required>
+        <option value="">Selecione...</option>
+        <option value="cartao">Cartão de Crédito</option>
+        <option value="boleto">Boleto Bancário</option>
+        <option value="pix">PIX</option>
+      </select>
+
+      <button type="submit">Confirmar Pedido</button>
+    </form>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+
+    const resumoDiv = document.getElementById("resumo-pedido");
+    const totalDiv = document.getElementById("total");
+    const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+
+    if (carrinho.length === 0) {
+      alert("Seu carrinho está vazio.");
+      window.location.href = "index.html";
+    } else {
+      carregarResumo();
+    }
+
+    function carregarResumo() {
+
+      const contagem = {};
+      carrinho.forEach(id => contagem[id] = (contagem[id] || 0) + 1);
+      const idsUnicos = [...new Set(carrinho)];
+      resumoDiv.innerHTML = "";
+      let total = 0;
+
+
+      const promises = idsUnicos.map(id => 
+        fetch(`https://fakestoreapi.com/products/${id}`)
+          .then(res => res.json())
+      );
+
+      Promise.all(promises).then(produtos => {
+        produtos.forEach(produto => {
+          const qtd = contagem[produto.id];
+          const precoTotal = produto.price * qtd;
+          total += precoTotal;
+
+          const div = document.createElement("div");
+          div.classList.add("resumo-item");
+          div.innerHTML = `<span>${produto.title} (x${qtd})</span> <span>R$ ${precoTotal.toFixed(2)}</span>`;
+          resumoDiv.appendChild(div);
+        });
+
+        totalDiv.textContent = `Total a pagar: R$ ${total.toFixed(2)}`;
+      });
+    }
+
+   
+    document.getElementById("checkout-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const nome = this.nome.value.trim();
+      const endereco = this.endereco.value.trim();
+      const telefone = this.telefone.value.trim();
+      const pagamento = this.pagamento.value;
+
+      if (!nome || !endereco || !telefone || !pagamento) {
+        alert("Por favor, preencha todos os campos.");
+        return;
+      }
+
+      alert(`Pedido confirmado!\n\nNome: ${nome}\nEndereço: ${endereco}\nTelefone: ${telefone}\nPagamento: ${pagamento}\n\nObrigado pela compra!`);
+
+      
+      localStorage.removeItem("carrinho");
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mercadinho Digital - Login</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .hidden {
+      display: none;
+    }
+    .login-container {
+      max-width: 400px;
+      margin: 80px auto;
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .login-container input {
+      width: 90%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    .login-container button {
+      width: 95%;
+      padding: 12px;
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .login-container button:hover {
+      background-color: #005fa3;
+    }
+    .toggle-btn {
+      background: none;
+      color: #0077cc;
+      border: none;
+      font-size: 0.95rem;
+      cursor: pointer;
+      text-decoration: underline;
+      margin-top: 10px;
+    }
+    .toggle-btn:hover {
+      color: #004c99;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2 id="form-title">Entrar</h2>
+
+    <div id="login-form">
+      <input type="text" id="login-username" placeholder="Usuário" />
+      <input type="password" id="login-password" placeholder="Senha" />
+      <button onclick="login()">Entrar</button>
+    </div>
+
+    <div id="register-form" class="hidden">
+      <input type="text" id="register-username" placeholder="Novo usuário" />
+      <input type="password" id="register-password" placeholder="Nova senha" />
+      <button onclick="register()">Registrar</button>
+    </div>
+
+    <p>
+      <span id="toggle-text">Não tem conta?</span>
+      <button class="toggle-btn" onclick="toggleForm()">Criar conta</button>
+    </p>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById("login-form");
+    const registerForm = document.getElementById("register-form");
+    const formTitle = document.getElementById("form-title");
+    const toggleText = document.getElementById("toggle-text");
+    const toggleBtn = document.querySelector(".toggle-btn");
+
+    function toggleForm() {
+      const isLogin = !loginForm.classList.contains("hidden");
+      if (isLogin) {
+        loginForm.classList.add("hidden");
+        registerForm.classList.remove("hidden");
+        formTitle.textContent = "Criar Conta";
+        toggleText.textContent = "Já tem conta?";
+        toggleBtn.textContent = "Entrar";
+      } else {
+        loginForm.classList.remove("hidden");
+        registerForm.classList.add("hidden");
+        formTitle.textContent = "Entrar";
+        toggleText.textContent = "Não tem conta?";
+        toggleBtn.textContent = "Criar conta";
+      }
+    }
+
+    function register() {
+      const username = document.getElementById("register-username").value.trim();
+      const password = document.getElementById("register-password").value.trim();
+
+      if (!username || !password) {
+        alert("Preencha todos os campos.");
+        return;
+      }
+
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+
+      if (users.some(u => u.username === username)) {
+        alert("Usuário já existe.");
+        return;
+      }
+
+      users.push({ username, password });
+      localStorage.setItem("users", JSON.stringify(users));
+      alert("Cadastro realizado com sucesso! Faça login.");
+
+      toggleForm(); // Volta para o login
+    }
+
+    function login() {
+      const username = document.getElementById("login-username").value.trim();
+      const password = document.getElementById("login-password").value.trim();
+
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      const validUser = users.find(u => u.username === username && u.password === password);
+
+      if (validUser) {
+        localStorage.setItem("loggedIn", "true");
+        localStorage.setItem("loggedUser", username);
+        window.location.href = "index.html";
+      } else {
+        alert("Usuário ou senha inválidos.");
+      }
+    }
+  </script>
+</body>
+</html>

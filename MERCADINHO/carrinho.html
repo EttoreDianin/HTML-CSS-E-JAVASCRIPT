@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Carrinho de Compras</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .item-carrinho {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .item-carrinho img {
+      width: 60px;
+      border-radius: 6px;
+    }
+
+    .item-carrinho span {
+      flex: 1;
+    }
+
+    .item-carrinho button {
+      background-color: #cc0000;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+
+    .item-carrinho button:hover {
+      background-color: #990000;
+    }
+
+    #total {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-top: 20px;
+      text-align: right;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Carrinho de Compras</h1>
+    <nav>
+      <a href="index.html">Voltar ao catálogo</a> |
+      <button onclick="logout()">Sair</button>
+    </nav>
+  </header>
+
+  <main>
+    <div id="carrinho"></div>
+    <div id="total">Total: R$ 0,00</div>
+    <button onclick="window.location.href='checkout.html'" style="margin-top: 20px; padding: 12px 20px; font-size: 1.1rem; background-color: #0077cc; color: white; border: none; border-radius: 6px; cursor: pointer;">
+  Finalizar Compra
+</button>
+
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    function finalizarCompra() {
+      const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+      if (carrinho.length === 0) {
+        alert("Seu carrinho está vazio.");
+        return;
+      }
+
+      
+      alert("Compra finalizada com sucesso! Obrigado.");
+      localStorage.removeItem("carrinho");
+      window.location.href = "index.html";
+    }
+
+    atualizarCarrinho();
+  </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Detalhes do Produto</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .produto-detalhe {
+      max-width: 900px;
+      margin: 40px auto;
+      display: flex;
+      gap: 30px;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .produto-detalhe img {
+      max-width: 300px;
+      border-radius: 10px;
+    }
+
+    .info {
+      flex: 1;
+    }
+
+    .info h2 {
+      margin-bottom: 1rem;
+    }
+
+    .info p {
+      margin-bottom: 0.8rem;
+      font-size: 1.1rem;
+    }
+
+    .info button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .info button:hover {
+      background-color: #005fa3;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mercadinho Digital</h1>
+    <nav>
+      <a href="index.html">Voltar ao catálogo</a> |
+      <a href="carrinho.html">Carrinho 🛒</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="produto-detalhe" id="produto-container">
+      Carregando...
+    </div>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const produtoId = params.get("id");
+
+    if (!produtoId) {
+      alert("Produto não especificado.");
+      window.location.href = "index.html";
+    }
+
+    fetch(`https://fakestoreapi.com/products/${produtoId}`)
+      .then(res => res.json())
+      .then(produto => {
+        const container = document.getElementById("produto-container");
+        container.innerHTML = `
+          <img src="${produto.image}" alt="${produto.title}" />
+          <div class="info">
+            <h2>${produto.title}</h2>
+            <p><strong>Preço:</strong> ${produto.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+            <p><strong>Categoria:</strong> ${produto.category}</p>
+            <p>${produto.description}</p>
+            <button onclick="adicionarAoCarrinho(${produto.id})">Adicionar ao Carrinho</button>
+          </div>
+        `;
+      });
+
+    function adicionarAoCarrinho(id) {
+      let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+      carrinho.push(id);
+      localStorage.setItem("carrinho", JSON.stringify(carrinho));
+      alert("Produto adicionado ao carrinho!");
+    }
+  </script>
+</body>
+</html>
